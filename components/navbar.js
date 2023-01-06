@@ -16,14 +16,14 @@ export default function Navbar() {
     const { lang, user } = useAppContext();
     const texts = i18n[lang];
     return (
-        <div className='row mt-5 px-4'>
-            <div className='col-9'>
-                <h5>{texts.title}</h5>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">{texts.title}</a>
+                <div className='text-end text-light'>
+                    {texts.user + user}
+                </div>
             </div>
-            <div className='col text-end'>
-                {texts.user + user}
-            </div>
-            <hr/>
-        </div>
+        </nav>
+
     )
 }

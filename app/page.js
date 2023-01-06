@@ -38,7 +38,7 @@ function HomePage() {
               <h5 className="card-title">{texts.title}</h5>
               <p className="card-text">{texts.scenario}</p>
               <div className='d-flex'>
-                <a href="/forms/" className="btn btn-primary mx-3">{texts.demo}</a>
+                <a href="/requests/" className="btn btn-primary mx-3">{texts.demo}</a>
                 <a href={texts.detailURL} className="btn btn-outline-primary mx-3">{texts.detail}</a>
               </div>
 
