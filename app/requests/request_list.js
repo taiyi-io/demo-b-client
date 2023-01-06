@@ -1,4 +1,4 @@
-import { useAppContext } from '../../components/context';
+import { useAppContext, getCurrentyFormatter } from '../../components/context';
 import Link from 'next/link';
 
 const i18n = {
@@ -45,14 +45,14 @@ const enumApproving = 1;
 export default function RequestList({ records }) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
+    var formatter = getCurrentyFormatter();
     return (
         <table className="table table-hover">
             <thead>
-                <tr className="table-primary">
+                <tr className="table-primary text-center">
                     <th>{texts.id}</th>
                     <th>{texts.customer}</th>
                     <th>{texts.asset}</th>
-                    <th>{texts.bank}</th>
                     <th>{texts.status}</th>
                     <th>{texts.mode}</th>
                     <th>{texts.result}</th>
@@ -88,9 +88,8 @@ export default function RequestList({ records }) {
                         return (
                             <tr key={id}>
                                 <td>{id}</td>
-                                <td>{customer}</td>
-                                <td>{minimum_asset}</td>
-                                <td>{bank}</td>
+                                <td className='text-center'>{customer}</td>
+                                <td className='text-end'>{formatter.format(minimum_asset)}</td>
                                 <td>{statusLabel}</td>
                                 <td>{modeLabel}</td>
                                 <td>{resultLabel}</td>

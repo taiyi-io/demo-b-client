@@ -1,5 +1,5 @@
 'use client';
-import { useAppContext } from '../../../../components/context';
+import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
 
 const i18n = {
     en: {
@@ -58,6 +58,7 @@ export default function RequestDetail(props) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
     const { data } = props;
+    const formatter = getCurrentyFormatter();
     const { id, customer, verify_mode, result, invoker, verifier, comment,
         minimum_asset, status, create_time, invoke_time, verify_time } = data;
     var parameters = [
@@ -71,7 +72,7 @@ export default function RequestDetail(props) {
         },
         {
             label: texts.asset,
-            value: minimum_asset,
+            value: formatter.format(minimum_asset),
         },
         {
             label: texts.invoker,

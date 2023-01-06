@@ -3,15 +3,19 @@ import Boot from './bootstrap';
 
 let npmPackage = require("../package.json");
 
-const version = npmPackage.version;
+
 
 export default function RootLayout({ children }) {
+  const version = npmPackage.version;
+  const defaultLang = 'cn';
+  const defaultUser = 'demo';
+
   const defaultContext = {
-    lang: 'cn',
-    user: 'demo',
+    lang: defaultLang,
+    user: defaultUser,
     version: version,
   }
-  
+
   return (
     <html>
       <body>

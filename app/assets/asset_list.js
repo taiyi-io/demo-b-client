@@ -1,4 +1,4 @@
-import { useAppContext } from '../../components/context';
+import { useAppContext, getCurrentyFormatter } from '../../components/context';
 
 const i18n = {
     en: {
@@ -32,10 +32,11 @@ const enumSuspend = 2;
 export default function AssetList({ records }) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
+    var formatter = getCurrentyFormatter();
     return (
         <table className="table table-hover">
             <thead>
-                <tr className="table-primary">
+                <tr className="table-primary text-center">
                     <th>{texts.customer}</th>
                     <th>{texts.asset}</th>
                     <th>{texts.cash}</th>
@@ -58,10 +59,10 @@ export default function AssetList({ records }) {
                             statusLabel = texts.statusBlock;                            
                         }
                         return (
-                            <tr key={customer}>
+                            <tr key={customer} className='text-center'>
                                 <td>{customer}</td>
-                                <td>{asset}</td>
-                                <td>{cash}</td>
+                                <td className='text-end'>{formatter.format(asset)}</td>
+                                <td className='text-end'>{formatter.format(cash)}</td>
                                 <td>{statusLabel}</td>
                                 <td>{register}</td>
                             </tr>
