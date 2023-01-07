@@ -51,7 +51,6 @@ const i18n = {
 }
 
 
-const enumIdle = 0;
 const enumApproving = 1;
 
 export default function RequestDetail(props) {

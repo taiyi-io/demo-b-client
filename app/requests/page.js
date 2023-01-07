@@ -18,6 +18,19 @@ const pseudoData = {
             invoke_time: '2022-12-21 17:41:00'
         },
         {
+            id: '2236',
+            customer: "laoliu",
+            amount: 320000,
+            bank: 'bank_b',
+            minimum_asset: 250000,
+            invoker: 'atom',
+            verify_mode: 'manual',
+            verifier: 'bob',
+            status: 1,
+            create_time: '2022-12-19 11:20:05',
+            invoke_time: '2022-12-21 21:30:00'
+        },
+        {
             id: '2234',
             customer: "zhangsan",
             amount: 45000,
@@ -46,19 +59,6 @@ const pseudoData = {
             create_time: '2022-12-18 11:00:05',
             invoke_time: '2022-12-21 19:41:00',
             verify_time: '2022-12-21 19:43:07'
-        },
-        {
-            id: '2236',
-            customer: "laoliu",
-            amount: 320000,
-            bank: 'bank_b',
-            minimum_asset: 250000,
-            invoker: 'atom',
-            verify_mode: 'manual',
-            verifier: 'bob',
-            status: 1,
-            create_time: '2022-12-19 11:20:05',
-            invoke_time: '2022-12-21 21:30:00'
         }
     ]
 }
