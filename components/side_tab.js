@@ -18,9 +18,9 @@ export default function SideTab({current}) {
     const tabRequest = 'requests';
     const tabAssets = 'assets';
     return (
-        <nav class="nav flex-column nav-pills text-center my-3">
-            <a class={tabRequest === current? "nav-link active": "nav-link"} href="/requests/">{texts.requests}</a>
-            <a class={tabAssets === current? "nav-link active": "nav-link"} href="/assets/">{texts.assets}</a>
+        <nav className="nav flex-column nav-pills text-center my-3">
+            <a className={tabRequest === current? "nav-link active": "nav-link"} href="/requests/">{texts.requests}</a>
+            <a className={tabAssets === current? "nav-link active": "nav-link"} href="/assets/">{texts.assets}</a>
         </nav>
     )
 }

@@ -16,9 +16,9 @@ export default function Navbar() {
     const { lang, user } = useAppContext();
     const texts = i18n[lang];
     return (
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">{texts.title}</a>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-5">
+            <div className="container-fluid">
+                <a className="navbar-brand" href="#">{texts.title}</a>
                 <div className='text-end text-light'>
                     {texts.user + user}
                 </div>

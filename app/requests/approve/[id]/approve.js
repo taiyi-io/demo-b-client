@@ -135,7 +135,7 @@ export default function ApproveRequest({ request, userAsset }) {
             </table>
             {
                 available ? <></> : (
-                    <div class="alert alert-danger" role="alert">
+                    <div className="alert alert-danger" role="alert">
                         {alertLabel}
                     </div>
                 )
