@@ -1,7 +1,8 @@
 'use client';
 import { useAppContext } from '../../components/context';
+import { CustomerAsset } from '../../components/customer_asset';
 import Pagination from '../../components/pagination';
-import AssetList from './asset_list';
+import AssetTable from './asset_table';
 
 const i18n = {
     en: {
@@ -12,7 +13,11 @@ const i18n = {
     }
 }
 
-export default function AssetPanel({ currentPage, totalPages, records }) {
+export default function AssetPanel({ currentPage, totalPages, records }:{
+    currentPage: number, 
+    totalPages: number, 
+    records: CustomerAsset[],
+}) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
     return (
@@ -25,7 +30,7 @@ export default function AssetPanel({ currentPage, totalPages, records }) {
                 </nav>
             </div>
             <div className='row m-2 p-2'>
-                <AssetList records={records} />
+                <AssetTable records={records} />
             </div>
             <Pagination current={currentPage} total={totalPages} baseURL='/assets/' />
         </div>
