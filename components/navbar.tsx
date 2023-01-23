@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useAppContext } from './context';
 
 const i18n = {
@@ -24,6 +25,5 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
-
     )
 }
