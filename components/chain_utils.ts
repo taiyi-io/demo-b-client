@@ -29,8 +29,8 @@ export async function queryRequests(pageOffset: number, pageSize: number): Promi
     limit: result.limit,
     total: result.total,
   };
-  if (result.documents && 0 !== result.documents.length){
-    for (let doc of result.documents){
+  if (result.documents && 0 !== result.documents.length) {
+    for (let doc of result.documents) {
       let record: VerifyRequest = JSON.parse(doc.content);
       record.id = doc.id;
       recordList.records.push(record);
@@ -39,7 +39,7 @@ export async function queryRequests(pageOffset: number, pageSize: number): Promi
   return recordList;
 }
 
-export async function queryCustomers(pageOffset: number, pageSize: number):  Promise<AssetList> {
+export async function queryCustomers(pageOffset: number, pageSize: number): Promise<AssetList> {
   let conn = await ChainProvider.connect();
   let condition = new QueryBuilder().
     MaxRecord(pageSize).
@@ -52,8 +52,8 @@ export async function queryCustomers(pageOffset: number, pageSize: number):  Pro
     limit: result.limit,
     total: result.total,
   };
-  if (result.documents && 0 !== result.documents.length){
-    for (let doc of result.documents){
+  if (result.documents && 0 !== result.documents.length) {
+    for (let doc of result.documents) {
       let record: CustomerAsset = JSON.parse(doc.content);
       record.customer = doc.id;
       recordList.records.push(record);
@@ -70,7 +70,7 @@ export async function getAsset(customerID: string): Promise<CustomerAsset> {
   return record;
 }
 
-export async function loadAllRecords(): Promise<VerifyRequest[]>{  
+export async function loadAllRequests(): Promise<VerifyRequest[]> {
   const pageSize = 20;
   const schemaName = REQUEST_SCHEMA_NAME;
   let offset = 0;
@@ -78,19 +78,24 @@ export async function loadAllRecords(): Promise<VerifyRequest[]>{
   let exitFlag = false;
   let conn = await ChainProvider.connect();
   do {
-    let condition = new QueryBuilder().MaxRecord(pageSize).SetOffset(offset).Build();
+    let condition = new QueryBuilder().
+      MaxRecord(pageSize).
+      SetOffset(offset).
+      PropertyEqual('bank', currentBank).
+      PropertyNotEqual('status', RequestStatus.Idle.toString()).
+      Build();
     let records = await conn.queryDocuments(schemaName, condition);
-    if (records.documents && 0 !== records.documents.length){
-      for (let doc of records.documents){
+    if (records.documents && 0 !== records.documents.length) {
+      for (let doc of records.documents) {
         let record: VerifyRequest = JSON.parse(doc.content);
         record.id = doc.id;
         offset++;
         result.push(record);
-      }      
+      }
     }
-    if(offset >= records.total){
+    if (offset >= records.total) {
       exitFlag = true;
     }
-  }while(!exitFlag);
+  } while (!exitFlag);
   return result;
 }

@@ -38,7 +38,7 @@ export default function DetailPanel({data}:{
                     <RequestDetail data={data} />
                 </div>
             </div>
-            <div className='row justify-content-center'>
+            <div className='row pb-3 justify-content-center'>
                 <div className='col-2'>
                     <BackButton href='/requests' />
                 </div>

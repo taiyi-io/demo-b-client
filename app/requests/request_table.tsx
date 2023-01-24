@@ -9,38 +9,34 @@ const i18n = {
         id: 'ID',
         customer: 'Customer',
         asset: 'Minimal Asset',
-        mode: 'Verify Mode',
-        result: 'Verify Result',
         status: 'Status',
         operate: 'Operates',
         btnDetail: 'Detail',
         btnApprove: 'Approve',
         modified: 'Last Modified',
-        approved: 'Approved',
-        rejected: 'Rejected',
-        modeManual: 'Manual',
-        modeContract: 'Smart Contract',
-        statusApproving: 'Wait Approve',
-        statusComplete: 'Completed',
+        statusManualApproving: 'Manual Approving',
+        statusManualApproved: 'Manual Approved',
+        statusManualRejected: 'Manual Rejected',
+        statusAutoApproving: 'Auto Approving',
+        statusAutoApproved: 'Auto Approved',
+        statusAutoRejected: 'Auto Rejected',
         noRecord: 'No request availalble',
     },
     cn: {
         id: '单据号',
         customer: '客户标识',
         asset: '资产要求',
-        mode: '验证模式',
-        result: '验证结果',
         status: '状态',
         operate: '操作',
         btnDetail: '详情',
         btnApprove: '审批',
-        modified: '最后更新',
-        approved: '通过',
-        rejected: '拒绝',
-        modeManual: '人工处理',
-        modeContract: '智能合约',
-        statusApproving: '等待审批',
-        statusComplete: '已完成',
+        modified: '最后更新',        
+        statusManualApproving: '人工审批中',
+        statusManualApproved: '已人工批准',
+        statusManualRejected: '已人工拒绝',
+        statusAutoApproving: '自动审批中',
+        statusAutoApproved: '已自动批准',
+        statusAutoRejected: '已自动拒绝',
         noRecord: '尚无审批请求',
     }
 }
@@ -69,10 +65,14 @@ export default function RequestTable({ records }: {
                 icon: 'bi-search',
                 label: texts.btnDetail,
             }];
-            let statusLabel: string, timeLabel: string, resultLabel: string;
-            let modeLabel = VerifyMode.Manual === verify_mode ? texts.modeManual : texts.modeContract;
+            let statusLabel: string, timeLabel: string;
+            let isManual = VerifyMode.Manual === verify_mode;
             if (RequestStatus.Approving === status) {
-                statusLabel = texts.statusApproving;
+                if (isManual){
+                    statusLabel = texts.statusManualApproving;
+                }else{
+                    statusLabel = texts.statusAutoApproving;
+                }                
                 timeLabel = new Date(invoke_time).toLocaleString();                
                 operates.push({
                     href: '/requests/approve/' + id,
@@ -80,9 +80,20 @@ export default function RequestTable({ records }: {
                     label: texts.btnApprove,
                 });
             } else {
-                statusLabel = texts.statusComplete;
+                if (isManual){
+                    if (result){
+                        statusLabel = texts.statusManualApproved;
+                    }else{
+                        statusLabel = texts.statusManualRejected;
+                    }                    
+                }else{
+                    if (result){
+                        statusLabel = texts.statusAutoApproved;
+                    }else{
+                        statusLabel = texts.statusAutoRejected;
+                    }
+                }                
                 timeLabel = new Date(verify_time).toLocaleString();
-                resultLabel = result ? texts.approved : texts.rejected;
             }
             return (
                 <tr key={id}>
@@ -90,8 +101,6 @@ export default function RequestTable({ records }: {
                     <td className='text-center'>{customer}</td>
                     <td className='text-end'>{formatter.format(minimum_asset)}</td>
                     <td>{statusLabel}</td>
-                    <td>{modeLabel}</td>
-                    <td>{resultLabel}</td>
                     <td>{timeLabel}</td>
                     <td>
                         <div className='d-flex'>
@@ -127,8 +136,6 @@ export default function RequestTable({ records }: {
                     <th>{texts.customer}</th>
                     <th>{texts.asset}</th>
                     <th>{texts.status}</th>
-                    <th>{texts.mode}</th>
-                    <th>{texts.result}</th>
                     <th>{texts.modified}</th>
                     <th>{texts.operate}</th>
                 </tr>

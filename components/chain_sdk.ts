@@ -285,8 +285,6 @@ export interface LogRecords {
     logs?: TraceLog[],
 }
 
-
-
 interface requestOptions {
     method: RequestMethod,
     body?: string,
@@ -325,6 +323,7 @@ export class ChainConnector {
     #_sessionID: string = '';
     #_timeout: number = 0;
     #_localIP: string = '';
+    #_trace: boolean = false;
     constructor(accessID: string, privateKey: Uint8Array) {
         this.#_accessID = accessID;
         this.#_privateKey = privateKey;
@@ -350,6 +349,10 @@ export class ChainConnector {
 
     get LocalIP() {
         return this.#_localIP;
+    }
+
+    set Trace(flag: boolean){
+        this.#_trace = flag;
     }
 
     /**
@@ -405,16 +408,21 @@ export class ChainConnector {
         this.#_sessionID = session;
         this.#_timeout = timeout;
         this.#_localIP = address;
-        // process.stdout.write('session allocated: ' + this.#_sessionID + '\n');
+        if (this.#_trace){
+            console.log('<Chain-DEBUG> [%s]: new session allocated', this.#_sessionID);
+        }        
         return;
     }
 
     /**
      * Keep established session alive
      */
-    async activate(): Promise<void> {
+    async activate() {
         const url = this.#mapToAPI('/sessions/');
-        return this.#doRequest(RequestMethod.PUT, url);
+        await this.#doRequest(RequestMethod.PUT, url);
+        if (this.#_trace){
+            console.log('<Chain-DEBUG> [%s]: keep alive', this.#_sessionID);
+        } 
     }
 
 
@@ -520,12 +528,12 @@ export class ChainConnector {
      * Rebuild index of a schema
      * @param {string} schemaName schema for rebuilding
      */
-    async rebuildIndex(schemaName: string): Promise<void> {
+    async rebuildIndex(schemaName: string) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
         const url = this.#mapToDomain('/schemas/' + schemaName + '/index/');
-        return this.#doRequest(RequestMethod.POST, url);
+        await this.#doRequest(RequestMethod.POST, url);
     }
 
     /**
@@ -533,12 +541,12 @@ export class ChainConnector {
      * @param {string} schemaName Name of new schema
      * @param {DocumentProperty[]} properties Properties of new schema
      */
-    async createSchema(schemaName: string, properties: DocumentProperty[]): Promise<void> {
+    async createSchema(schemaName: string, properties: DocumentProperty[]) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
         const url = this.#mapToDomain("/schemas/" + schemaName);
-        return this.#doRequestWithPayload(RequestMethod.POST, url, properties);
+        await this.#doRequestWithPayload(RequestMethod.POST, url, properties);
     }
 
     /**
@@ -546,24 +554,24 @@ export class ChainConnector {
      * @param  {string} schemaName Name of schema
      * @param  {DocumentProperty[]} properties Properties of schema for updating
      */
-    async updateSchema(schemaName: string, properties: DocumentProperty[]): Promise<void> {
+    async updateSchema(schemaName: string, properties: DocumentProperty[]) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
         const url = this.#mapToDomain("/schemas/" + schemaName);
-        return this.#doRequestWithPayload(RequestMethod.PUT, url, properties);
+        await this.#doRequestWithPayload(RequestMethod.PUT, url, properties);
     }
 
     /**
      * Delete a schema
      * @param schemaName name of target schema
      */
-    async deleteSchema(schemaName: string): Promise<void> {
+    async deleteSchema(schemaName: string) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
         const url = this.#mapToDomain("/schemas/" + schemaName);
-        return this.#doRequest(RequestMethod.DELETE, url);
+        await this.#doRequest(RequestMethod.DELETE, url);
     }
 
     /**
@@ -636,7 +644,7 @@ export class ChainConnector {
      * @param {string} docID document ID
      * @param {string} docContent document content in JSON format
      */
-    async updateDocument(schemaName: string, docID: string, docContent: string): Promise<void> {
+    async updateDocument(schemaName: string, docID: string, docContent: string) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
@@ -647,7 +655,7 @@ export class ChainConnector {
         const payload = {
             content: docContent,
         }
-        return this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
+        await this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
     }
 
     /**
@@ -659,7 +667,7 @@ export class ChainConnector {
      * @param {any} value value for property
      */
     async updateDocumentProperty(schemaName: string, docID: string, propertyName: string, valueType: PropertyType,
-        value: any): Promise<void> {
+        value: any) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
@@ -674,7 +682,7 @@ export class ChainConnector {
             type: valueType,
             value: value
         };
-        return this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
+        await this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
     }
 
     /**
@@ -682,7 +690,7 @@ export class ChainConnector {
      * @param {string} schemaName schema name
      * @param {string} docID document ID
      */
-    async removeDocument(schemaName: string, docID: string): Promise<void> {
+    async removeDocument(schemaName: string, docID: string) {
         if (!schemaName) {
             throw new Error('schema name required');
         }
@@ -691,7 +699,6 @@ export class ChainConnector {
         }
         const url = this.#mapToDomain("/schemas/" + schemaName + "/docs/" + docID);
         await this.#doRequest(RequestMethod.DELETE, url);
-        return;
     }
 
     /**
@@ -782,7 +789,7 @@ export class ChainConnector {
      * @param {string} contractName contract name
      * @param {ContractDefine} define contract define
      */
-    async deployContract(contractName: string, define: ContractDefine): Promise<void> {
+    async deployContract(contractName: string, define: ContractDefine) {
         if (!contractName) {
             throw new Error('contract name required');
         }
@@ -790,7 +797,7 @@ export class ChainConnector {
         const payload = {
             content: JSON.stringify(define),
         }
-        return this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
+        await this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
     }
 
     /**
@@ -798,7 +805,7 @@ export class ChainConnector {
      * @param {string} contractName contract name
      * @param {string[]} parameters parameters for invoking contract
      */
-    async callContract(contractName: string, parameters: string[]): Promise<void> {
+    async callContract(contractName: string, parameters: string[]) {
         if (!contractName) {
             throw new Error('contract name required');
         }
@@ -806,26 +813,26 @@ export class ChainConnector {
         const payload = {
             parameters: parameters,
         }
-        return this.#doRequestWithPayload(RequestMethod.POST, url, payload);
+        await this.#doRequestWithPayload(RequestMethod.POST, url, payload);
     }
 
     /**
      * Withdraw a contract define
      * @param {string} contractName contract name
      */
-    async withdrawContract(contractName: string): Promise<void> {
+    async withdrawContract(contractName: string) {
         if (!contractName) {
             throw new Error('contract name required');
         }
         const url = this.#mapToDomain("/contracts/" + contractName);
-        return this.#doRequest(RequestMethod.DELETE, url);
+        await this.#doRequest(RequestMethod.DELETE, url);
     }
 
     /**
      * Enable contract tracing
      * @param {string} contractName contract name
      */
-    async enableContractTrace(contractName: string): Promise<void> {
+    async enableContractTrace(contractName: string) {
         if (!contractName) {
             throw new Error('contract name required');
         }
@@ -833,14 +840,14 @@ export class ChainConnector {
         const payload = {
             enable: true,
         }
-        return this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
+        await this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
     }
 
     /**
      * Enable contract tracing
      * @param {string} contractName contract name
      */
-    async disableContractTrace(contractName: string): Promise<void> {
+    async disableContractTrace(contractName: string) {
         if (!contractName) {
             throw new Error('contract name required');
         }
@@ -848,7 +855,7 @@ export class ChainConnector {
         const payload = {
             enable: false,
         }
-        return this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
+        await this.#doRequestWithPayload(RequestMethod.PUT, url, payload);
     }
 
 
@@ -884,9 +891,8 @@ export class ChainConnector {
         return resp.ok;
     }
 
-    async #validateResult(url: string, options: object): Promise<void> {
+    async #validateResult(url: string, options: object) {
         await this.#parseResponse(url, options);
-        return;
     }
 
     async #parseResponse(url: string, options: object): Promise<object> {
@@ -906,14 +912,14 @@ export class ChainConnector {
         return payload[payloadPathData];
     }
 
-    async #doRequest(method: RequestMethod, url: string): Promise<void> {
+    async #doRequest(method: RequestMethod, url: string) {
         let options = await this.#prepareOptions(method, url, null);
-        return this.#validateResult(url, options)
+        await this.#validateResult(url, options)
     }
 
-    async #doRequestWithPayload(method: RequestMethod, url: string, payload: object): Promise<void> {
+    async #doRequestWithPayload(method: RequestMethod, url: string, payload: object) {
         let options = await this.#prepareOptions(method, url, payload);
-        return this.#validateResult(url, options);
+        await this.#validateResult(url, options);
     }
 
     async #fetchResponse(method: RequestMethod, url: string): Promise<object> {
@@ -961,9 +967,10 @@ export class ChainConnector {
         headers[headerNameSignatureAlgorithm] = signatureMethodEd25519;
         headers[headerNameSignature] = signature;
         options.headers = headers;
-        process.stdout.write('session: ' + this.#_sessionID + '\n');
-        process.stdout.write('signature: ' + signature + '\n');
-        process.stdout.write('content: ' + JSON.stringify(signatureContent) + '\n');
+        if (this.#_trace){
+            console.log('<Chain-DEBUG> [%s]: signature payload\n%s', this.#_sessionID, JSON.stringify(signatureContent));
+            console.log('<Chain-DEBUG> [%s]: signature: %s', this.#_sessionID, signature);
+        }  
         return options;
     }
 

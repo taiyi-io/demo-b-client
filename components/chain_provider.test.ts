@@ -3,6 +3,7 @@ import { DocumentProperty, PropertyType, ContractDefine, QueryCondition, QueryBu
 
 test('Test Schemas', async () => {
     let conn = await ChainProvider.connect();
+    conn.Trace = true;
     const schemaName = 'js-test-case1-schema';
     console.log('schema test begin...');
     {
@@ -72,6 +73,7 @@ test('Test Documents', async () => {
     const schemaName = 'js-test-case2-document';
     const docPrefix = 'js-test-case2-';
     let conn = await ChainProvider.connect();
+    conn.Trace = true;
     console.log('document test begin...');
     {
         let result = await conn.hasSchema(schemaName);
@@ -219,6 +221,7 @@ test('Test Contracts', async () => {
         },
     ];
     let conn = await ChainProvider.connect();
+    conn.Trace = true;
     console.log('contract test begin...');
     {
         let result = await conn.hasSchema(schemaName);
@@ -311,6 +314,7 @@ test('Test Contracts', async () => {
 
 test('Test Chain', async () => {
     let conn = await ChainProvider.connect();
+    conn.Trace = true;
     console.log('chain test begin...');
     let status = await conn.getStatus();
     console.log('world version ' + status.world_version + ', block height ' + status.block_height);

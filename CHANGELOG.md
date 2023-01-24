@@ -5,6 +5,7 @@
 ### Added
 
 - Using chain sdk to connect real data
+- Debug option to package.json
 
 ### Changed
 

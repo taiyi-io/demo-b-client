@@ -4,7 +4,8 @@
   "version": "0.3.0",
   "chain": {
     "host": "172.20.10.4",
-    "port": 9100
+    "port": 9100,
+    "debug": false
   },
   "dependencies": {
     "@babel/preset-env": "^7.20.2",
