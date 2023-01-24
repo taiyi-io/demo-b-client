@@ -2,6 +2,8 @@
 import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
 import BackButton from '../../../../components/back_button';
 import { statusToLabel, isAccountOK } from '../../../../components/account_util';
+import { VerifyRequest } from '../../../../components/verify_request';
+import { CustomerAsset } from '../../../../components/customer_asset';
 
 const i18n = {
     en: {
@@ -46,37 +48,44 @@ const i18n = {
     }
 }
 
-export default function ApproveRequest({ request, userAsset }) {
+export default function ApproveRequest({ request, customer }:{
+    request: VerifyRequest, 
+    customer: CustomerAsset,
+}) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
     const currentFormatter = getCurrentyFormatter();
-    const { id, customer, minimum_asset, invoker, invoke_time } = request;
-    const { asset, cash, register, status } = userAsset;
+    const { id, minimum_asset, invoker, invoke_time } = request;
+    const { asset, cash_flow, register_time, status } = customer;
     const MinimumCashFlow = minimum_asset / 10;
     let available = false;
     let alertLabel;
     const day = 1000 * 3600 * 24;
-    const diffDays = parseInt((new Date() - new Date(register)) / day);
+    const diffDays = Math.round(new Date().getTime() - new Date(register_time).getTime() / day);
     const threeMonths = 30 * 3;
     if (asset < minimum_asset) {
         alertLabel = texts.alertNotEnoughAsset;
     } else if (!isAccountOK(status)) {
         alertLabel = texts.alertAccountAbnormal;
-    } else if (cash < MinimumCashFlow) {
+    } else if (cash_flow < MinimumCashFlow) {
         alertLabel = texts.alertCashFlowTooFew;
     } else if (diffDays < threeMonths) {
         alertLabel = texts.alertNewAccount;
     } else {
         available = true;
     }
-    var parameters = [
+    interface parameterType {
+        label: string,
+        value: string,
+    }
+    let parameters: parameterType[] = [
         {
             label: texts.id,
             value: id,
         },
         {
             label: texts.customer,
-            value: customer,
+            value: customer.customer,
         },
         {
             label: texts.invoker,
@@ -88,11 +97,11 @@ export default function ApproveRequest({ request, userAsset }) {
         },
         {
             label: texts.register,
-            value: register,
+            value: new Date(register_time).toLocaleString(),
         },
         {
             label: texts.cash,
-            value: currentFormatter.format(cash),
+            value: currentFormatter.format(cash_flow),
         },
     ]
     let approveClass;

@@ -1,21 +1,25 @@
 'use client';
 import { useAppContext } from '../../../../components/context';
-import BackButton from '../../../../components/back_button';
-import RequestDetail from './detail';
 import Link from 'next/link';
+import ApproveRequest from './approve';
+import { VerifyRequest } from '../../../../components/verify_request';
+import { CustomerAsset } from '../../../../components/customer_asset';
 
 const i18n = {
     en: {
         requests: 'Verification Requests',
-        detail: 'Detail',
+        approve: 'Approve',
     },
     cn: {
         requests: '验资请求',
-        detail: '详情',
+        approve: '审批',
     }
 }
 
-export default function DetailPanel({ data }) {
+export default function ApprovePanel({ request, customer }:{
+    request: VerifyRequest, 
+    customer: CustomerAsset,
+}) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
     return (
@@ -24,7 +28,7 @@ export default function DetailPanel({ data }) {
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><Link href='/requests/'>{texts.requests}</Link></li>
-                        <li className="breadcrumb-item active">{texts.detail}</li>
+                        <li className="breadcrumb-item active">{texts.approve}</li>
                     </ol>
                 </nav>
             </div>
@@ -32,12 +36,7 @@ export default function DetailPanel({ data }) {
                 <div className='col-3'>
                 </div>
                 <div className='col-6'>
-                    <RequestDetail data={data} />
-                </div>
-            </div>
-            <div className='row justify-content-center'>
-                <div className='col-2'>
-                    <BackButton href='/requests' />
+                    <ApproveRequest request={request} customer={customer}/>
                 </div>
             </div>
         </div>

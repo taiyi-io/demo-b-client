@@ -1,5 +1,7 @@
 'use client';
+import { Verify } from 'crypto';
 import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
+import { RequestStatus, VerifyMode, VerifyRequest } from '../../../../components/verify_request';
 
 const i18n = {
     en: {
@@ -50,17 +52,15 @@ const i18n = {
     }
 }
 
-
-const enumApproving = 1;
-
-export default function RequestDetail(props) {
+export default function RequestDetail({data}:{
+    data: VerifyRequest
+}) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
-    const { data } = props;
     const formatter = getCurrentyFormatter();
     const { id, customer, verify_mode, result, invoker, verifier, comment,
         minimum_asset, status, create_time, invoke_time, verify_time } = data;
-    var parameters = [
+    let parameters = [
         {
             label: texts.id,
             value: id,
@@ -79,15 +79,15 @@ export default function RequestDetail(props) {
         },
         {
             label: texts.createTime,
-            value: create_time,
+            value: new Date(create_time).toLocaleString(),
         },
         {
             label: texts.invokeTime,
-            value: invoke_time,
+            value: new Date(invoke_time).toLocaleString(),
         },
     ]
-    let statusLabel, resultLabel;
-    if (enumApproving === status) {
+    let statusLabel: string, resultLabel: string;
+    if (RequestStatus.Approving === status) {
         statusLabel = texts.statusApproving;
         parameters.push(
             {
@@ -105,7 +105,7 @@ export default function RequestDetail(props) {
             },
             {
                 label: texts.mode,
-                value: 'manual' === verify_mode ? texts.modeManual : texts.modeContract,
+                value: VerifyMode.Manual === verify_mode ? texts.modeManual : texts.modeContract,
             },
             {
                 label: texts.verifier,
@@ -117,7 +117,7 @@ export default function RequestDetail(props) {
             },
             {
                 label: texts.completeTime,
-                value: verify_time,
+                value: new Date(verify_time).toLocaleString(),
             },
             {
                 label: texts.comment,

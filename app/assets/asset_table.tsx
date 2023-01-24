@@ -29,7 +29,7 @@ export default function AssetTable({ records }: {
 }) {    
     const { lang } = useAppContext();
     const texts = i18n[lang];
-    var formatter = getCurrentyFormatter();
+    let formatter = getCurrentyFormatter();
     const aliveInterval = 1000 * 10;
     React.useEffect(() => {
         let intervalID = setInterval(async () => {

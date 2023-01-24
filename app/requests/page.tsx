@@ -1,9 +1,9 @@
-import { queryCustomers } from "../../components/chain_utils";
-import AssetPanel from "./panel";
+import { queryRequests } from "../../components/chain_utils";
+import RequestPanel from "./panel";
 
 export default async function Page({ searchParams }: {
     searchParams?: { [key: string]: string | string[] | undefined };
-  }) {
+}) {
     let page: number = 0;
     if (searchParams.page){
       let pageString = searchParams.page as string;
@@ -14,7 +14,7 @@ export default async function Page({ searchParams }: {
     }
     const recordPerPage = 5;
     const pageOffset = recordPerPage * page;
-    let { offset, total, records } = await queryCustomers(pageOffset, recordPerPage);
+    let { offset, total, records } = await queryRequests(pageOffset, recordPerPage);
     let currentPage = 0;
     if (offset >= recordPerPage) {
         currentPage = Math.floor(offset / recordPerPage);
@@ -26,6 +26,6 @@ export default async function Page({ searchParams }: {
         totalPages = Math.ceil(total / recordPerPage);
     }
     return (
-        <AssetPanel currentPage={currentPage} totalPages={totalPages} records={records} />
+        <RequestPanel currentPage={currentPage} totalPages={totalPages} records={records} />
     )
 }
