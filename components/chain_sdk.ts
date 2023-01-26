@@ -110,14 +110,14 @@ export interface QueryCondition {
     descend: boolean,
 }
 
-export class QueryBuilder{
+export class QueryBuilder {
     #_filters: ConditionFilter[];
     #_since: string;
     #_offset: number;
     #_limit: number;
     #_order: string;
     #_descend: boolean;
-    constructor(){
+    constructor() {
         this.#_filters = [];
         this.#_since = '';
         this.#_offset = 0;
@@ -125,7 +125,7 @@ export class QueryBuilder{
         this.#_order = '';
         this.#_descend = false;
     }
-    PropertyEqual(propertyName: string, value: string): QueryBuilder{
+    PropertyEqual(propertyName: string, value: string): QueryBuilder {
         this.#_filters.push({
             property: propertyName,
             operator: FilterOperator.Equal,
@@ -133,7 +133,7 @@ export class QueryBuilder{
         });
         return this;
     }
-    PropertyNotEqual(propertyName: string, value: string): QueryBuilder{
+    PropertyNotEqual(propertyName: string, value: string): QueryBuilder {
         this.#_filters.push({
             property: propertyName,
             operator: FilterOperator.NotEqual,
@@ -141,7 +141,7 @@ export class QueryBuilder{
         });
         return this;
     }
-    PropertyGreaterThan(propertyName: string, value: string): QueryBuilder{
+    PropertyGreaterThan(propertyName: string, value: string): QueryBuilder {
         this.#_filters.push({
             property: propertyName,
             operator: FilterOperator.GreaterThan,
@@ -149,7 +149,7 @@ export class QueryBuilder{
         });
         return this;
     }
-    PropertyLessThan(propertyName: string, value: string): QueryBuilder{
+    PropertyLessThan(propertyName: string, value: string): QueryBuilder {
         this.#_filters.push({
             property: propertyName,
             operator: FilterOperator.LesserThan,
@@ -157,7 +157,7 @@ export class QueryBuilder{
         });
         return this;
     }
-    PropertyGreaterOrEqual(propertyName: string, value: string): QueryBuilder{
+    PropertyGreaterOrEqual(propertyName: string, value: string): QueryBuilder {
         this.#_filters.push({
             property: propertyName,
             operator: FilterOperator.GreaterOrEqual,
@@ -166,7 +166,7 @@ export class QueryBuilder{
         return this;
     }
 
-    PropertyLessOrEqual(propertyName: string, value: string): QueryBuilder{
+    PropertyLessOrEqual(propertyName: string, value: string): QueryBuilder {
         this.#_filters.push({
             property: propertyName,
             operator: FilterOperator.LesserOrEqual,
@@ -174,28 +174,28 @@ export class QueryBuilder{
         });
         return this;
     }
-    StartFrom(value: string): QueryBuilder{
+    StartFrom(value: string): QueryBuilder {
         this.#_since = value;
         return this;
     }
-    SetOffset(offset: number): QueryBuilder{
+    SetOffset(offset: number): QueryBuilder {
         this.#_offset = offset;
         return this;
     }
-    MaxRecord(limit:number): QueryBuilder{
+    MaxRecord(limit: number): QueryBuilder {
         this.#_limit = limit;
         return this;
     }
-    AscendBy(propertyName: string): QueryBuilder{
+    AscendBy(propertyName: string): QueryBuilder {
         this.#_order = propertyName;
         return this;
     }
-    DescendBy(propertyName: string): QueryBuilder{
+    DescendBy(propertyName: string): QueryBuilder {
         this.#_order = propertyName;
         this.#_descend = true;
         return this;
     }
-    Build(): QueryCondition{
+    Build(): QueryCondition {
         return {
             filters: this.#_filters,
             since: this.#_since,
@@ -268,9 +268,14 @@ export interface ContractInfo {
     enabled: boolean,
     trace?: boolean,
 }
+export interface ContractParameter {
+    name: string,
+    description?: string,
+}
 
 export interface ContractDefine {
     steps: ContractStep[],
+    parameters?: ContractParameter[],
 }
 
 export interface ContractRecords {
@@ -289,6 +294,8 @@ interface requestOptions {
     method: RequestMethod,
     body?: string,
     headers?: object,
+    cache?: string,
+    next?: object,
 }
 
 interface sessionResponse {
@@ -351,7 +358,7 @@ export class ChainConnector {
         return this.#_localIP;
     }
 
-    set Trace(flag: boolean){
+    set Trace(flag: boolean) {
         this.#_trace = flag;
     }
 
@@ -408,9 +415,9 @@ export class ChainConnector {
         this.#_sessionID = session;
         this.#_timeout = timeout;
         this.#_localIP = address;
-        if (this.#_trace){
+        if (this.#_trace) {
             console.log('<Chain-DEBUG> [%s]: new session allocated', this.#_sessionID);
-        }        
+        }
         return;
     }
 
@@ -420,9 +427,9 @@ export class ChainConnector {
     async activate() {
         const url = this.#mapToAPI('/sessions/');
         await this.#doRequest(RequestMethod.PUT, url);
-        if (this.#_trace){
+        if (this.#_trace) {
             console.log('<Chain-DEBUG> [%s]: keep alive', this.#_sessionID);
-        } 
+        }
     }
 
 
@@ -878,6 +885,10 @@ export class ChainConnector {
         let options: requestOptions = {
             method: method,
             headers: headers,
+            cache: 'no-store',
+            next: {
+                revalidate: 0
+            }
         }
         if (payload) {
             options.body = JSON.stringify(payload);
@@ -947,7 +958,11 @@ export class ChainConnector {
             signature_algorithm: signatureMethodEd25519,
         }
         let options: requestOptions = {
-            method: method
+            method: method,
+            cache: 'no-store',
+            next: {
+                revalidate: 0
+            }
         };
         let headers = {};
         let bodyContent = '';
@@ -967,10 +982,10 @@ export class ChainConnector {
         headers[headerNameSignatureAlgorithm] = signatureMethodEd25519;
         headers[headerNameSignature] = signature;
         options.headers = headers;
-        if (this.#_trace){
+        if (this.#_trace) {
             console.log('<Chain-DEBUG> [%s]: signature payload\n%s', this.#_sessionID, JSON.stringify(signatureContent));
             console.log('<Chain-DEBUG> [%s]: signature: %s', this.#_sessionID, signature);
-        }  
+        }
         return options;
     }
 

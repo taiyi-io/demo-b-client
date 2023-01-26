@@ -1,5 +1,5 @@
 import ChainProvider from "./chain_provider";
-import { QueryBuilder } from "./chain_sdk";
+import { LogRecords, QueryBuilder } from "./chain_sdk";
 import { AssetList, ASSET_SCHEMA_NAME, CustomerAsset } from "./customer_asset";
 import { VerifyRequest, REQUEST_SCHEMA_NAME, RequestList, RequestStatus } from "./verify_request";
 
@@ -98,4 +98,10 @@ export async function loadAllRequests(): Promise<VerifyRequest[]> {
     }
   } while (!exitFlag);
   return result;
+}
+
+export async function getRecordHistory(recordID: string): Promise<LogRecords>{  
+  const schemaName = REQUEST_SCHEMA_NAME;
+  let conn = await ChainProvider.connect();
+  return conn.getDocumentLogs(schemaName, recordID);
 }

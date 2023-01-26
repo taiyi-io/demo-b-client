@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useAppContext } from './context';
 
@@ -13,11 +14,15 @@ const i18n = {
 };
 
 export default function BackButton({ href, disabled }: {
-    href: string,
+    href?: string,
     disabled?: boolean,
 }) {
     const { lang } = useAppContext();
     const texts = i18n[lang];
+    const router = useRouter();
+    const goBack = () => {
+        router.back();
+    }
     if (disabled) {
         return (
             <button type="button" className="btn btn-sm btn-outline-secondary disabled">
@@ -27,12 +32,14 @@ export default function BackButton({ href, disabled }: {
         )
     } else {
         return (
-            <Link href={href}>
-                <button type="button" className="btn btn-sm btn-outline-primary">
-                    <i className="bi bi-chevron-left"></i>
-                    {texts.back}
-                </button>
-            </Link>
+            <button 
+                type="button" 
+                className="btn btn-sm btn-outline-primary"
+                onClick={goBack}
+                >
+                <i className="bi bi-chevron-left"></i>
+                {texts.back}
+            </button>
         )
     }
 }

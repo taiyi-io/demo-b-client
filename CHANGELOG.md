@@ -1,5 +1,12 @@
 # Change Log for Demo B Client
 
+## [0.3.1] - 2023-01-26
+
+### Added
+
+- History of request
+- Optimize dynamic rendering
+
 ## [0.3.0] - 2023-01-23
 
 ### Added

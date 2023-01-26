@@ -3,8 +3,11 @@ import { ChainConnector } from '../components/chain_sdk';
 import { ContextData, ContextProvider } from '../components/context';
 import { AccountStatus, AssetProperties, ASSET_SCHEMA_NAME } from '../components/customer_asset';
 import Boot from './bootstrap';
+import npmPackage from '../package.json';
 
-let npmPackage = require("../package.json");
+export const dynamic = 'force-dynamic',
+  revalidate = 0,
+  fetchCache = 'force-no-store';
 
 async function ensureSchema(conn: ChainConnector) {
   let hasSchema = await conn.hasSchema(ASSET_SCHEMA_NAME);

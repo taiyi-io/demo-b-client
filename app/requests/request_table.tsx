@@ -13,6 +13,7 @@ const i18n = {
         operate: 'Operates',
         btnDetail: 'Detail',
         btnApprove: 'Approve',
+        btnHistory: 'History',
         modified: 'Last Modified',
         statusManualApproving: 'Manual Approving',
         statusManualApproved: 'Manual Approved',
@@ -30,6 +31,7 @@ const i18n = {
         operate: '操作',
         btnDetail: '详情',
         btnApprove: '审批',
+        btnHistory: '变更历史',
         modified: '最后更新',        
         statusManualApproving: '人工审批中',
         statusManualApproved: '已人工批准',
@@ -94,6 +96,11 @@ export default function RequestTable({ records }: {
                     }
                 }                
                 timeLabel = new Date(verify_time).toLocaleString();
+                operates.push({
+                    href: '/requests/history/' + id,
+                    icon: 'bi-clock-history',
+                    label: texts.btnHistory,
+                });
             }
             return (
                 <tr key={id}>
