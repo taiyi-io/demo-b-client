@@ -3,7 +3,7 @@
   "description": "Web client of bank B for demo",
   "version": "0.3.1",
   "chain": {
-    "host": "172.20.10.4",
+    "host": "192.168.25.223",
     "port": 9100,
     "debug": false
   },
