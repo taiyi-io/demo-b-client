@@ -1,7 +1,6 @@
 'use client';
-import { Verify } from 'crypto';
-import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
-import { RequestStatus, VerifyMode, VerifyRequest } from '../../../../components/verify_request';
+import { useAppContext, getCurrentyFormatter } from '../../../../../../components/context';
+import { RequestStatus, VerifyMode, VerifyRequest } from '../../../../../../components/verify_request';
 
 const i18n = {
     en: {

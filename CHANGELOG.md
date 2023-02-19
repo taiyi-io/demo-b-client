@@ -1,5 +1,17 @@
 # Change Log for Demo B Client
 
+## [0.4.0] - 2023-02-19
+
+### Added
+
+- Allow specifying language directly on the landing page using '/?lang=en'
+- Add chain.project to package.json
+
+### Changed
+
+- Generate pages of different locales on different paths
+- Import @taiyi-io/chain-connector
+
 ## [0.3.0] - 2023-01-23
 
 ### Added

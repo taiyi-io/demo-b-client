@@ -1,10 +1,7 @@
 import ChainProvider from '../components/chain_provider';
-import { ChainConnector } from '../components/chain_sdk';
-import { ContextData, ContextProvider } from '../components/context';
+import { ChainConnector } from "@taiyi-io/chain-connector";
 import { AccountStatus, AssetProperties, ASSET_SCHEMA_NAME } from '../components/customer_asset';
 import Boot from './bootstrap';
-
-let npmPackage = require("../package.json");
 
 async function ensureSchema(conn: ChainConnector) {
   let hasSchema = await conn.hasSchema(ASSET_SCHEMA_NAME);
@@ -52,17 +49,11 @@ async function ensureSchema(conn: ChainConnector) {
   }
 }
 
+export const dynamic = 'force-dynamic',
+  revalidate = 0,
+  fetchCache = 'force-no-store';
+
 export default async function RootLayout({ children }) {
-  const version = npmPackage.version;
-  const defaultLang = 'cn';
-  const defaultUser = 'wuming.bank_b';
-
-  const defaultContext: ContextData = {
-    lang: defaultLang,
-    user: defaultUser,
-    version: version,
-  }
-
   let conn = await ChainProvider.connect();
   await ensureSchema(conn);
 
@@ -70,9 +61,7 @@ export default async function RootLayout({ children }) {
     <html>
       <body>
         <Boot />
-        <ContextProvider value={defaultContext}>
-          {children}
-        </ContextProvider>
+        {children}
       </body>
     </html>
   )

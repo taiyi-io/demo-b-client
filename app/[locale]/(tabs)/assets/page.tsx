@@ -1,4 +1,4 @@
-import { queryCustomers } from "../../components/chain_utils";
+import { queryCustomers } from "../../../../components/chain_utils";
 import AssetPanel from "./panel";
 
 export default async function Page({ searchParams }: {

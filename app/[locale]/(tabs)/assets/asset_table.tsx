@@ -1,9 +1,9 @@
 'use client';
-import { useAppContext, getCurrentyFormatter } from '../../components/context';
-import { statusToLabel } from '../../components/account_util';
-import { CustomerAsset } from '../../components/customer_asset';
+import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
+import { statusToLabel } from '../../../../components/account_util';
+import { CustomerAsset } from '../../../../components/customer_asset';
 import React from 'react';
-import { keepAlive } from '../../components/api_utils';
+import { keepAlive } from '../../../../components/api_utils';
 
 const i18n = {
     en: {

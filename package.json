@@ -1,9 +1,10 @@
 {
-  "name": "demo-b-client",
-  "description": "Web client of bank B for demo",
-  "version": "0.3.0",
+  "name": "demo-bank-b",
+  "description": "A Demo for the application system of bank B",
+  "version": "0.4.0",
   "chain": {
-    "host": "172.20.10.4",
+    "project": "",
+    "host": "localhost",
     "port": 9100,
     "debug": false
   },
@@ -12,6 +13,7 @@
     "@bitauth/libauth": "^1.19.1",
     "@noble/ed25519": "^1.7.1",
     "@supercharge/strings": "^2.0.0",
+    "@taiyi-io/chain-connector": "^0.5.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "crypto-js": "^4.1.1",
@@ -20,6 +22,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
+  "author": "Akumas",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

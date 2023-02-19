@@ -1,5 +1,5 @@
 import ChainProvider from "./chain_provider";
-import { DocumentProperty, PropertyType, ContractDefine, QueryCondition, QueryBuilder } from './chain_sdk';
+import { DocumentProperty, PropertyType, ContractDefine, QueryCondition, QueryBuilder } from "@taiyi-io/chain-connector";
 
 test('Test Schemas', async () => {
     let conn = await ChainProvider.connect();

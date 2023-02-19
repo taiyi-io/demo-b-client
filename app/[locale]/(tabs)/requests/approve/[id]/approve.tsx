@@ -1,14 +1,14 @@
 'use client';
-import { useRouter } from 'next/navigation';
-import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
-import BackButton from '../../../../components/back_button';
-import { statusToLabel, isAccountOK } from '../../../../components/account_util';
-import { VerifyRequest } from '../../../../components/verify_request';
-import { CustomerAsset } from '../../../../components/customer_asset';
-import strings from '@supercharge/strings/dist';
 import React from 'react';
-import { approveRequest } from '../../../../components/api_utils';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+import strings from '@supercharge/strings/dist';
+import { useAppContext, getCurrentyFormatter } from '../../../../../../components/context';
+import BackButton from '../../../../../../components/back_button';
+import { statusToLabel, isAccountOK } from '../../../../../../components/account_util';
+import { VerifyRequest } from '../../../../../../components/verify_request';
+import { CustomerAsset } from '../../../../../../components/customer_asset';
+import { approveRequest } from '../../../../../../components/api_utils';
 
 const i18n = {
     en: {
@@ -78,10 +78,11 @@ export default function ApproveRequest({ request, customer }: {
     request: VerifyRequest,
     customer: CustomerAsset,
 }) {
+    const currentPath = usePathname();
     const { lang, user } = useAppContext();
     const texts = i18n[lang];
     const currentFormatter = getCurrentyFormatter();
-    const listURL = '/requests/';
+    const listURL = currentPath + "/../..";
     const DEFAULT_COUNT_DOWN = 5;
     const router = useRouter();
     const [comment, setComment] = React.useState('');
@@ -222,7 +223,7 @@ export default function ApproveRequest({ request, customer }: {
         let buttons: JSX.Element[];
         if (formStatus.idle === status) {
             buttons = [
-                <BackButton href='/requests/' />,
+                <BackButton href={currentPath + "/../.."} />,
                 <button
                     type="button"
                     className="btn btn-danger btn-sm"
@@ -249,7 +250,7 @@ export default function ApproveRequest({ request, customer }: {
                 </button>);
         } else if (formStatus.approving === status) {
             buttons = [
-                <BackButton href='/requests/' disabled />,
+                <BackButton href={currentPath + "/../.."} disabled />,
                 <button
                     type="button"
                     className="btn btn-danger btn-sm disabled"
@@ -268,7 +269,7 @@ export default function ApproveRequest({ request, customer }: {
         } else {
             //rejecting
             buttons = [
-                <BackButton href='/requests/' disabled />,
+                <BackButton href={currentPath + "/../.."} disabled />,
                 <button
                     type="button"
                     className="btn btn-danger btn-sm disabled"

@@ -1,4 +1,4 @@
-import { queryRequests } from "../../components/chain_utils";
+import { queryRequests } from "../../../../components/chain_utils";
 import RequestPanel from "./panel";
 
 export default async function Page({ searchParams }: {
