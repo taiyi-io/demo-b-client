@@ -9,6 +9,8 @@ async function ensureSchema(conn: ChainConnector) {
     let defines = AssetProperties;
     await conn.createSchema(ASSET_SCHEMA_NAME, defines);
     console.log('schema %s initialized', ASSET_SCHEMA_NAME);
+  }
+  {
     interface initialData{
       asset: number,
       cash_flow: number,
@@ -42,10 +44,13 @@ async function ensureSchema(conn: ChainConnector) {
       }],
     ]);
     for(let [user, data] of customers){
-      await conn.addDocument(ASSET_SCHEMA_NAME, user, JSON.stringify(data));
-      console.log('sample customer %s added', user);
+      let exists = await conn.hasDocument(ASSET_SCHEMA_NAME, user)
+      if (!exists){
+        await conn.addDocument(ASSET_SCHEMA_NAME, user, JSON.stringify(data));
+        console.log('sample customer %s added', user);
+      }
+      
     }
-    
   }
 }
 
