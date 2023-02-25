@@ -34,7 +34,7 @@ export default function RequestPanel({ currentPage, totalPages, records }:{
             <div className='row m-2 p-2'>
                 <RequestTable records={records} />
             </div>
-            <Pagination current={currentPage} total={totalPages} baseURL={currentPath} />
+            <Pagination current={currentPage} total={totalPages} baseURL={currentPath as string} />
         </div>
     )
 }

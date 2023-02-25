@@ -82,7 +82,7 @@ export default function RequestDetail({data}:{
         },
         {
             label: texts.invokeTime,
-            value: new Date(invoke_time).toLocaleString(),
+            value: new Date(invoke_time as string).toLocaleString(),
         },
     ]
     let statusLabel: string, resultLabel: string;
@@ -116,7 +116,7 @@ export default function RequestDetail({data}:{
             },
             {
                 label: texts.completeTime,
-                value: new Date(verify_time).toLocaleString(),
+                value: new Date(verify_time as string).toLocaleString(),
             },
             {
                 label: texts.comment,

@@ -75,7 +75,7 @@ export default function RequestTable({ records }: {
                 }else{
                     statusLabel = texts.statusAutoApproving;
                 }                
-                timeLabel = new Date(invoke_time).toLocaleString();                
+                timeLabel = new Date(invoke_time as string).toLocaleString();                
                 operates.push({
                     href: '/approve/' + id,
                     icon: 'bi-person-fill',
@@ -95,7 +95,7 @@ export default function RequestTable({ records }: {
                         statusLabel = texts.statusAutoRejected;
                     }
                 }                
-                timeLabel = new Date(verify_time).toLocaleString();
+                timeLabel = new Date(verify_time as string).toLocaleString();
             }
             return (
                 <tr key={id}>

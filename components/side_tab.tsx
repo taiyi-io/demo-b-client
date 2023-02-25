@@ -14,7 +14,7 @@ const i18n = {
 }
 
 export default function SideTab() {
-    const currentPath = usePathname();    
+    const currentPath = usePathname() as string;    
     const { lang } = useAppContext();
     const texts = i18n[lang];
     const tabRequest = 'requests';

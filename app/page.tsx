@@ -9,8 +9,7 @@ export default function LandingPage({
 }) {
   const router = useRouter();
   React.useEffect(() =>{
-    let language = searchParams.lang;
-    if (language && 'en' === language){
+    if (searchParams && searchParams.lang && 'en' === searchParams.lang){
       router.push('/en-us/');
     }else{
       router.push('/zh-cn/');

@@ -5,7 +5,7 @@ export default async function Page({ searchParams }: {
     searchParams?: { [key: string]: string | string[] | undefined };
 }) {
     let page: number = 0;
-    if (searchParams.page){
+    if (searchParams && searchParams.page){
       let pageString = searchParams.page as string;
       let index = Number.parseInt(pageString);
       if (!Number.isNaN(index)){

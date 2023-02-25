@@ -48,7 +48,7 @@ export default function AssetTable({ records }: {
                 <tr key={customer} className='text-center'>
                     <td>{customer}</td>
                     <td className='text-end'>{formatter.format(asset)}</td>
-                    <td className='text-end'>{formatter.format(cash_flow)}</td>
+                    <td className='text-end'>{formatter.format(cash_flow as number)}</td>
                     <td>{statusLabel}</td>
                     <td>{new Date(register_time).toLocaleString()}</td>
                 </tr>

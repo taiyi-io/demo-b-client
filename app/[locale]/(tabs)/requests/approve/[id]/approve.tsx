@@ -112,7 +112,7 @@ export default function ApproveRequest({ request, customer }: {
         }
         setStatus(formStatus.approving);
         try {
-            await approveRequest(id, user, true, comment);
+            await approveRequest(id as string, user, true, comment);
             setCountDown(DEFAULT_COUNT_DOWN);
             setStatus(formStatus.success);
         } catch (e) {
@@ -129,7 +129,7 @@ export default function ApproveRequest({ request, customer }: {
         }
         setStatus(formStatus.rejecting);
         try {
-            await approveRequest(id, user, false, comment);
+            await approveRequest(id as string, user, false, comment);
             setCountDown(DEFAULT_COUNT_DOWN);
             setStatus(formStatus.success);
         } catch (e) {
@@ -157,7 +157,7 @@ export default function ApproveRequest({ request, customer }: {
 
     //begin rendering
     if (formStatus.success === status) {
-        let title: string = strings(texts.formatSuccess).replace('{0}', id).get();
+        let title: string = strings(texts.formatSuccess).replace('{0}', id as string).get();
         let countDownLabel = strings(texts.countDown).replace('{0}', countDown.toString()).get();
         return (
             <div className='text-center p-3 m-5'>
@@ -175,7 +175,7 @@ export default function ApproveRequest({ request, customer }: {
     } else {
         const MinimumCashFlow = minimum_asset / 10;
         let available = false;
-        let alertLabel: string;
+        let alertLabel: string = '';
         const msInDay = 24 * 60 * 60 * 1000;
         const diffDays = Math.round((new Date().getTime() - new Date(register_time).getTime()) / msInDay);
         const threeMonths = 30 * 3;
@@ -183,7 +183,7 @@ export default function ApproveRequest({ request, customer }: {
             alertLabel = texts.alertNotEnoughAsset;
         } else if (!isAccountOK(accountStatus)) {
             alertLabel = texts.alertAccountAbnormal;
-        } else if (cash_flow < MinimumCashFlow) {
+        } else if (cash_flow as number < MinimumCashFlow) {
             alertLabel = texts.alertCashFlowTooFew;
         } else if (diffDays < threeMonths) {
             alertLabel = texts.alertNewAccount;
@@ -197,19 +197,19 @@ export default function ApproveRequest({ request, customer }: {
         let parameters: parameterType[] = [
             {
                 label: texts.id,
-                value: id,
+                value: id as string,
             },
             {
                 label: texts.customer,
-                value: customer.customer,
+                value: customer.customer as string,
             },
             {
                 label: texts.invoker,
-                value: invoker,
+                value: invoker as string,
             },
             {
                 label: texts.invokeTime,
-                value: new Date(invoke_time).toLocaleString(),
+                value: new Date(invoke_time as string).toLocaleString(),
             },
             {
                 label: texts.register,
@@ -217,7 +217,7 @@ export default function ApproveRequest({ request, customer }: {
             },
             {
                 label: texts.cash,
-                value: currentFormatter.format(cash_flow),
+                value: currentFormatter.format(cash_flow as number),
             },
         ]
         let buttons: JSX.Element[];

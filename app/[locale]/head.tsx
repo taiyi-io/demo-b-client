@@ -1,5 +1,3 @@
-'use client';
-
 const i18n = {
   en: {
     title: 'Demo - Bank B',

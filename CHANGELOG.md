@@ -1,10 +1,11 @@
 # Change Log for Demo B Client
 
-## [0.4.1] - 2023-02-25
+## [0.4.1] - 2023-02-26
 
 ### Changed
 
 - Allocate a new connector for each connection request
+- Upgrade and adopt to nextjs 13.2
 
 ## [0.4.0] - 2023-02-19
 
