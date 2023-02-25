@@ -1406,10 +1406,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@taiyi-io/chain-connector@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.npmjs.org/@taiyi-io/chain-connector/-/chain-connector-0.5.0.tgz#68219b33c7ce122f9365607780ebfb0719b661f5"
-  integrity sha512-eAbWEekmIGHXKcrWVzXSTl4DNpoORgxlS66ODGOZ0cZI0sKOPbJ5G9MIEICznGmhzHoq2/aGntKbQYJh5ioBIA==
+"@taiyi-io/chain-connector@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.npmjs.org/@taiyi-io/chain-connector/-/chain-connector-0.5.1.tgz#ae2900cf3760cf06413f0535d4c5554b2aa25471"
+  integrity sha512-5NKRyP3dO4VsaLGt9A3h0FWF81YikYkbRa/PBPWSROmMyH9Lvh+d9Gtnz3MlQb4Arlh9eniyfr33vBzqTfaphA==
   dependencies:
     "@bitauth/libauth" "^1.19.1"
     "@noble/ed25519" "^1.7.1"
@@ -1452,7 +1452,7 @@
 
 "@types/crypto-js@^4.1.1":
   version "4.1.1"
-  resolved "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.1.1.tgz#602859584cecc91894eb23a4892f38cfa927890d"
+  resolved "https://registry.npmmirror.com/@types/crypto-js/-/crypto-js-4.1.1.tgz#602859584cecc91894eb23a4892f38cfa927890d"
   integrity sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==
 
 "@types/graceful-fs@^4.1.3":

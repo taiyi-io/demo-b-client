@@ -1,7 +1,7 @@
 {
   "name": "demo-bank-b",
   "description": "A Demo for the application system of bank B",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "chain": {
     "project": "",
     "host": "localhost",
@@ -13,7 +13,7 @@
     "@bitauth/libauth": "^1.19.1",
     "@noble/ed25519": "^1.7.1",
     "@supercharge/strings": "^2.0.0",
-    "@taiyi-io/chain-connector": "^0.5.0",
+    "@taiyi-io/chain-connector": "^0.5.1",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "crypto-js": "^4.1.1",
