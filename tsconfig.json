@@ -30,7 +30,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/forms/page.js"
+    "app/forms/page.js",
+    "build/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

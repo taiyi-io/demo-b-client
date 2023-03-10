@@ -1,5 +1,12 @@
 # Change Log for Demo B Client
 
+## [0.4.2] - 2023-03-10
+
+### Changed
+
+- Change output dir of building to 'build' for deploying
+- Change default start port to 3001
+
 ## [0.4.1] - 2023-02-26
 
 ### Changed
