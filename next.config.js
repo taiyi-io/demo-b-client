@@ -1,6 +1,7 @@
 
 
 const nextConfig = {
+  distDir: 'build',
   experimental: {
     appDir: true,
   },

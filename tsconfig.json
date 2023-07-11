@@ -22,14 +22,17 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/forms/page.js"  ],
+    "**/*.tsx",
+    "app/forms/page.js",
+    "build/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,9 +1,10 @@
 'use client';
-import { useAppContext } from '../../../../components/context';
-import BackButton from '../../../../components/back_button';
-import RequestDetail from './detail';
 import Link from 'next/link';
-import { VerifyRequest } from '../../../../components/verify_request';
+import RequestDetail from './detail';
+import { usePathname } from 'next/navigation';
+import { useAppContext } from '../../../../../../components/context';
+import BackButton from '../../../../../../components/back_button';
+import { VerifyRequest } from '../../../../../../components/verify_request';
 
 const i18n = {
     en: {
@@ -19,6 +20,7 @@ const i18n = {
 export default function DetailPanel({data}:{
     data: VerifyRequest
 }) {
+    const currentPath = usePathname();
     const { lang } = useAppContext();
     const texts = i18n[lang];
     return (
@@ -26,7 +28,7 @@ export default function DetailPanel({data}:{
             <div className='row mx-1'>
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link href='/requests/'>{texts.requests}</Link></li>
+                        <li className="breadcrumb-item"><Link href={currentPath + "/../.."}>{texts.requests}</Link></li>
                         <li className="breadcrumb-item active">{texts.detail}</li>
                     </ol>
                 </nav>
@@ -40,7 +42,7 @@ export default function DetailPanel({data}:{
             </div>
             <div className='row pb-3 justify-content-center'>
                 <div className='col-2'>
-                    <BackButton href='/requests' />
+                    <BackButton href={currentPath + "/../.."} />
                 </div>
             </div>
         </div>

@@ -1,14 +1,14 @@
 'use client';
-import { useRouter } from 'next/navigation';
-import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
-import BackButton from '../../../../components/back_button';
-import { statusToLabel, isAccountOK } from '../../../../components/account_util';
-import { VerifyRequest } from '../../../../components/verify_request';
-import { CustomerAsset } from '../../../../components/customer_asset';
-import strings from '@supercharge/strings/dist';
 import React from 'react';
-import { approveRequest } from '../../../../components/api_utils';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+import strings from '@supercharge/strings/dist';
+import { useAppContext, getCurrentyFormatter } from '../../../../../../components/context';
+import BackButton from '../../../../../../components/back_button';
+import { statusToLabel, isAccountOK } from '../../../../../../components/account_util';
+import { VerifyRequest } from '../../../../../../components/verify_request';
+import { CustomerAsset } from '../../../../../../components/customer_asset';
+import { approveRequest } from '../../../../../../components/api_utils';
 
 const i18n = {
     en: {
@@ -78,10 +78,11 @@ export default function ApproveRequest({ request, customer }: {
     request: VerifyRequest,
     customer: CustomerAsset,
 }) {
+    const currentPath = usePathname();
     const { lang, user } = useAppContext();
     const texts = i18n[lang];
     const currentFormatter = getCurrentyFormatter();
-    const listURL = '/requests/';
+    const listURL = currentPath + "/../..";
     const DEFAULT_COUNT_DOWN = 5;
     const router = useRouter();
     const [comment, setComment] = React.useState('');
@@ -111,7 +112,7 @@ export default function ApproveRequest({ request, customer }: {
         }
         setStatus(formStatus.approving);
         try {
-            await approveRequest(id, user, true, comment);
+            await approveRequest(id as string, user, true, comment);
             setCountDown(DEFAULT_COUNT_DOWN);
             setStatus(formStatus.success);
         } catch (e) {
@@ -128,7 +129,7 @@ export default function ApproveRequest({ request, customer }: {
         }
         setStatus(formStatus.rejecting);
         try {
-            await approveRequest(id, user, false, comment);
+            await approveRequest(id as string, user, false, comment);
             setCountDown(DEFAULT_COUNT_DOWN);
             setStatus(formStatus.success);
         } catch (e) {
@@ -156,7 +157,7 @@ export default function ApproveRequest({ request, customer }: {
 
     //begin rendering
     if (formStatus.success === status) {
-        let title: string = strings(texts.formatSuccess).replace('{0}', id).get();
+        let title: string = strings(texts.formatSuccess).replace('{0}', id as string).get();
         let countDownLabel = strings(texts.countDown).replace('{0}', countDown.toString()).get();
         return (
             <div className='text-center p-3 m-5'>
@@ -174,7 +175,7 @@ export default function ApproveRequest({ request, customer }: {
     } else {
         const MinimumCashFlow = minimum_asset / 10;
         let available = false;
-        let alertLabel: string;
+        let alertLabel: string = '';
         const msInDay = 24 * 60 * 60 * 1000;
         const diffDays = Math.round((new Date().getTime() - new Date(register_time).getTime()) / msInDay);
         const threeMonths = 30 * 3;
@@ -182,7 +183,7 @@ export default function ApproveRequest({ request, customer }: {
             alertLabel = texts.alertNotEnoughAsset;
         } else if (!isAccountOK(accountStatus)) {
             alertLabel = texts.alertAccountAbnormal;
-        } else if (cash_flow < MinimumCashFlow) {
+        } else if (cash_flow as number < MinimumCashFlow) {
             alertLabel = texts.alertCashFlowTooFew;
         } else if (diffDays < threeMonths) {
             alertLabel = texts.alertNewAccount;
@@ -196,19 +197,19 @@ export default function ApproveRequest({ request, customer }: {
         let parameters: parameterType[] = [
             {
                 label: texts.id,
-                value: id,
+                value: id as string,
             },
             {
                 label: texts.customer,
-                value: customer.customer,
+                value: customer.customer as string,
             },
             {
                 label: texts.invoker,
-                value: invoker,
+                value: invoker as string,
             },
             {
                 label: texts.invokeTime,
-                value: new Date(invoke_time).toLocaleString(),
+                value: new Date(invoke_time as string).toLocaleString(),
             },
             {
                 label: texts.register,
@@ -216,13 +217,13 @@ export default function ApproveRequest({ request, customer }: {
             },
             {
                 label: texts.cash,
-                value: currentFormatter.format(cash_flow),
+                value: currentFormatter.format(cash_flow as number),
             },
         ]
         let buttons: JSX.Element[];
         if (formStatus.idle === status) {
             buttons = [
-                <BackButton href='/requests/' />,
+                <BackButton href={currentPath + "/../.."} />,
                 <button
                     type="button"
                     className="btn btn-danger btn-sm"
@@ -249,7 +250,7 @@ export default function ApproveRequest({ request, customer }: {
                 </button>);
         } else if (formStatus.approving === status) {
             buttons = [
-                <BackButton href='/requests/' disabled />,
+                <BackButton href={currentPath + "/../.."} disabled />,
                 <button
                     type="button"
                     className="btn btn-danger btn-sm disabled"
@@ -268,7 +269,7 @@ export default function ApproveRequest({ request, customer }: {
         } else {
             //rejecting
             buttons = [
-                <BackButton href='/requests/' disabled />,
+                <BackButton href={currentPath + "/../.."} disabled />,
                 <button
                     type="button"
                     className="btn btn-danger btn-sm disabled"

@@ -1,7 +1,7 @@
 'use client';
-import { useAppContext } from '../../components/context';
-import { CustomerAsset } from '../../components/customer_asset';
-import Pagination from '../../components/pagination';
+import { useAppContext } from '../../../../components/context';
+import { CustomerAsset } from '../../../../components/customer_asset';
+import Pagination from '../../../../components/pagination';
 import AssetTable from './asset_table';
 
 const i18n = {

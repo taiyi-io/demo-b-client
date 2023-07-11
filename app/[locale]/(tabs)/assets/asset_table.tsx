@@ -1,9 +1,9 @@
 'use client';
-import { useAppContext, getCurrentyFormatter } from '../../components/context';
-import { statusToLabel } from '../../components/account_util';
-import { CustomerAsset } from '../../components/customer_asset';
+import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
+import { statusToLabel } from '../../../../components/account_util';
+import { CustomerAsset } from '../../../../components/customer_asset';
 import React from 'react';
-import { keepAlive } from '../../components/api_utils';
+import { keepAlive } from '../../../../components/api_utils';
 
 const i18n = {
     en: {
@@ -48,7 +48,7 @@ export default function AssetTable({ records }: {
                 <tr key={customer} className='text-center'>
                     <td>{customer}</td>
                     <td className='text-end'>{formatter.format(asset)}</td>
-                    <td className='text-end'>{formatter.format(cash_flow)}</td>
+                    <td className='text-end'>{formatter.format(cash_flow as number)}</td>
                     <td>{statusLabel}</td>
                     <td>{new Date(register_time).toLocaleString()}</td>
                 </tr>

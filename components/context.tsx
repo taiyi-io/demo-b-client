@@ -1,8 +1,8 @@
 'use client';
 import React, { createContext, useContext } from 'react';
 
-const langChinese = 'cn';
-const langEnglish = 'en';
+export const langChinese = 'cn';
+export const langEnglish = 'en';
 
 const defaultContext = {
     lang: langChinese,

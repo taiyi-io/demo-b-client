@@ -1,6 +1,3 @@
-'use client';
-import {useAppContext} from '../components/context';
-
 const i18n = {
   en: {
     title: 'Demo - Bank B',
@@ -10,8 +7,18 @@ const i18n = {
   }
 }
 
-export default function Header() {
-  const { lang } = useAppContext();
+export default function Header({
+  params,
+}: {
+  params: {
+      locale: string;
+  }
+}) {
+  const { locale } = params;
+  let lang = 'cn';
+  if ('en-us' === locale){
+    lang = 'en';
+  }
   const texts = i18n[lang];
   return (
     <>

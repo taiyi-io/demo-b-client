@@ -1,9 +1,10 @@
 'use client';
-import { useAppContext } from '../../../../components/context';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import ApproveRequest from './approve';
-import { VerifyRequest } from '../../../../components/verify_request';
-import { CustomerAsset } from '../../../../components/customer_asset';
+import { useAppContext } from '../../../../../../components/context';
+import { VerifyRequest } from '../../../../../../components/verify_request';
+import { CustomerAsset } from '../../../../../../components/customer_asset';
 
 const i18n = {
     en: {
@@ -20,6 +21,7 @@ export default function ApprovePanel({ request, customer }:{
     request: VerifyRequest, 
     customer: CustomerAsset,
 }) {
+    const currentPath = usePathname();
     const { lang } = useAppContext();
     const texts = i18n[lang];
     return (
@@ -27,7 +29,7 @@ export default function ApprovePanel({ request, customer }:{
             <div className='row mx-1'>
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><Link href='/requests/'>{texts.requests}</Link></li>
+                        <li className="breadcrumb-item"><Link href={currentPath + "/../.."}>{texts.requests}</Link></li>
                         <li className="breadcrumb-item active">{texts.approve}</li>
                     </ol>
                 </nav>

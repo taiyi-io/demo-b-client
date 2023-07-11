@@ -1,7 +1,8 @@
 'use client';
-import { useAppContext } from '../../components/context';
-import Pagination from '../../components/pagination';
-import { VerifyRequest } from '../../components/verify_request';
+import { usePathname } from 'next/navigation';
+import { useAppContext } from '../../../..//components/context';
+import Pagination from '../../../../components/pagination';
+import { VerifyRequest } from '../../../../components/verify_request';
 import RequestTable from './request_table';
 
 const i18n = {
@@ -18,6 +19,7 @@ export default function RequestPanel({ currentPage, totalPages, records }:{
     totalPages: number, 
     records: VerifyRequest[],
 }) {
+    const currentPath = usePathname();
     const { lang } = useAppContext();
     const texts = i18n[lang];
     return (
@@ -32,7 +34,7 @@ export default function RequestPanel({ currentPage, totalPages, records }:{
             <div className='row m-2 p-2'>
                 <RequestTable records={records} />
             </div>
-            <Pagination current={currentPage} total={totalPages} baseURL='/requests/' />
+            <Pagination current={currentPage} total={totalPages} baseURL={currentPath as string} />
         </div>
     )
 }

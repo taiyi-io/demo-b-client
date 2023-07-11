@@ -1,8 +1,9 @@
-import { useAppContext, getCurrentyFormatter } from '../../components/context';
-import Link from 'next/link';
-import { RequestStatus, VerifyMode, VerifyRequest } from '../../components/verify_request';
-import { keepAlive } from '../../components/api_utils';
 import React from 'react';
+import { usePathname } from 'next/navigation';
+import { useAppContext, getCurrentyFormatter } from '../../../../components/context';
+import { RequestStatus, VerifyMode, VerifyRequest } from '../../../../components/verify_request';
+import { keepAlive } from '../../../../components/api_utils';
+
 
 const i18n = {
     en: {
@@ -46,6 +47,7 @@ const i18n = {
 export default function RequestTable({ records }: {
     records: VerifyRequest[]
 }) {
+    const currentPath = usePathname();
     const { lang } = useAppContext();
     const texts = i18n[lang];
     let formatter = getCurrentyFormatter();
@@ -63,7 +65,7 @@ export default function RequestTable({ records }: {
         content = records.map(({ id, customer, verify_mode, result,
             minimum_asset, status, invoke_time, verify_time }) => {
             let operates = [{
-                href: '/requests/detail/' + id,
+                href: '/detail/' + id,
                 icon: 'bi-search',
                 label: texts.btnDetail,
             }];
@@ -75,9 +77,9 @@ export default function RequestTable({ records }: {
                 }else{
                     statusLabel = texts.statusAutoApproving;
                 }                
-                timeLabel = new Date(invoke_time).toLocaleString();                
+                timeLabel = new Date(invoke_time as string).toLocaleString();                
                 operates.push({
-                    href: '/requests/approve/' + id,
+                    href: '/approve/' + id,
                     icon: 'bi-person-fill',
                     label: texts.btnApprove,
                 });
@@ -95,12 +97,8 @@ export default function RequestTable({ records }: {
                         statusLabel = texts.statusAutoRejected;
                     }
                 }                
-                timeLabel = new Date(verify_time).toLocaleString();
-                operates.push({
-                    href: '/requests/history/' + id,
-                    icon: 'bi-clock-history',
-                    label: texts.btnHistory,
-                });
+
+                timeLabel = new Date(verify_time as string).toLocaleString();
             }
             return (
                 <tr key={id}>
@@ -113,12 +111,12 @@ export default function RequestTable({ records }: {
                         <div className='d-flex'>
                             {
                                 operates.map(({ href, icon, label }, index) => (
-                                    <Link href={href} key={index}>
+                                    <a href={currentPath + href} key={index}>
                                         <button type="button" className="btn btn-outline-primary btn-sm m-1">
                                             <i className={'bi ' + icon}></i>
                                             {label}
                                         </button>
-                                    </Link>
+                                    </a>
                                 ))
                             }
                         </div>

@@ -1,6 +1,8 @@
 'use client';
-import { useAppContext } from '../components/context';
-import Link from 'next/link';
+import React from "react";
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useAppContext } from "../../components/context";
 
 const i18n = {
   en: {
@@ -21,7 +23,24 @@ const i18n = {
   }
 }
 
-function HomePage() {
+export default function WelcomePage({
+  params,
+}: {
+  params: {
+      locale: string;
+  }
+}) {
+  enum Locale{
+    China = 'zh-cn',
+    US = 'en-us'
+  };
+  const locale = params.locale;    
+  const router = useRouter();
+  React.useEffect(() =>{
+    if (Locale.China !== locale && Locale.US !== locale){
+      router.push(Locale.China);
+    }
+  }, [router, params]);
   const { lang, version } = useAppContext();
   const texts = i18n[lang];
   return (
@@ -38,7 +57,7 @@ function HomePage() {
               <h5 className="card-title">{texts.title}</h5>
               <p className="card-text">{texts.scenario}</p>
               <div className='d-flex'>
-                <a href="/requests/" className="btn btn-primary mx-3">{texts.demo}</a>
+                <a href={usePathname() + "/requests/"} className="btn btn-primary mx-3">{texts.demo}</a>
                 <a href={texts.detailURL} className="btn btn-outline-primary mx-3">{texts.detail}</a>
               </div>
 
@@ -51,5 +70,3 @@ function HomePage() {
     </div>
   )
 }
-
-export default HomePage
